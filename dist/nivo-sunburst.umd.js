@@ -4,7 +4,7 @@
   (global = global || self, factory(global.nivo = global.nivo || {}, global.React, global['lodash/sortBy'], global['lodash/cloneDeep'], global.RecomposeCompose, global.RecomposeDefaultProps, global.RecomposeWithPropsOnChange, global.RecomposeWithProps, global.RecomposePure, global.d3, global.d3, global.nivo, global.nivo, global.nivo));
 }(this, (function (exports, React, sortBy, cloneDeep, compose, defaultProps, withPropsOnChange, withProps, pure, d3Hierarchy, d3Shape, core, colors, tooltip) { 'use strict';
 
-  var React__default = 'default' in React ? React['default'] : React;
+  React = React && Object.prototype.hasOwnProperty.call(React, 'default') ? React['default'] : React;
   sortBy = sortBy && Object.prototype.hasOwnProperty.call(sortBy, 'default') ? sortBy['default'] : sortBy;
   cloneDeep = cloneDeep && Object.prototype.hasOwnProperty.call(cloneDeep, 'default') ? cloneDeep['default'] : cloneDeep;
   compose = compose && Object.prototype.hasOwnProperty.call(compose, 'default') ? compose['default'] : compose;
@@ -56,167 +56,6 @@
     return target;
   }
 
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  function _defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-  function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-  }
-
-  function _setPrototypeOf(o, p) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-      o.__proto__ = p;
-      return o;
-    };
-    return _setPrototypeOf(o, p);
-  }
-
-  function _inherits(subClass, superClass) {
-    if (typeof superClass !== "function" && superClass !== null) {
-      throw new TypeError("Super expression must either be null or a function");
-    }
-    subClass.prototype = Object.create(superClass && superClass.prototype, {
-      constructor: {
-        value: subClass,
-        writable: true,
-        configurable: true
-      }
-    });
-    if (superClass) _setPrototypeOf(subClass, superClass);
-  }
-
-  function _getPrototypeOf(o) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-      return o.__proto__ || Object.getPrototypeOf(o);
-    };
-    return _getPrototypeOf(o);
-  }
-
-  function _isNativeReflectConstruct() {
-    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-    if (Reflect.construct.sham) return false;
-    if (typeof Proxy === "function") return true;
-    try {
-      Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-
-  function _typeof(obj) {
-    "@babel/helpers - typeof";
-    if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-      _typeof = function _typeof(obj) {
-        return typeof obj;
-      };
-    } else {
-      _typeof = function _typeof(obj) {
-        return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-      };
-    }
-    return _typeof(obj);
-  }
-
-  function _assertThisInitialized(self) {
-    if (self === void 0) {
-      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-    }
-    return self;
-  }
-
-  function _possibleConstructorReturn(self, call) {
-    if (call && (_typeof(call) === "object" || typeof call === "function")) {
-      return call;
-    }
-    return _assertThisInitialized(self);
-  }
-
-  function _createSuper(Derived) {
-    return function () {
-      var Super = _getPrototypeOf(Derived),
-          result;
-      if (_isNativeReflectConstruct()) {
-        var NewTarget = _getPrototypeOf(this).constructor;
-        result = Reflect.construct(Super, arguments, NewTarget);
-      } else {
-        result = Super.apply(this, arguments);
-      }
-      return _possibleConstructorReturn(this, result);
-    };
-  }
-
-  var sliceStyle = {
-    pointerEvents: 'none'
-  };
-  var SunburstLabels = function (_Component) {
-    _inherits(SunburstLabels, _Component);
-    var _super = _createSuper(SunburstLabels);
-    function SunburstLabels() {
-      _classCallCheck(this, SunburstLabels);
-      return _super.apply(this, arguments);
-    }
-    _createClass(SunburstLabels, [{
-      key: "render",
-      value: function render() {
-        var _this$props = this.props,
-            nodes = _this$props.nodes,
-            label = _this$props.label,
-            skipAngle = _this$props.skipAngle,
-            textColor = _this$props.textColor,
-            theme = _this$props.theme;
-        var centerRadius = false;
-        return React__default.createElement(React.Fragment, null, nodes.filter(function (node) {
-          return node.depth === 1;
-        }).map(function (node) {
-          if (!centerRadius) {
-            var innerRadius = Math.sqrt(node.y0);
-            var outerRadius = Math.sqrt(node.y1);
-            centerRadius = innerRadius + (outerRadius - innerRadius) / 2;
-          }
-          var startAngle = node.x0;
-          var endAngle = node.x1;
-          var angle = Math.abs(endAngle - startAngle);
-          var angleDeg = core.radiansToDegrees(angle);
-          if (angleDeg <= skipAngle) return null;
-          var middleAngle = core.midAngle({
-            startAngle: startAngle,
-            endAngle: endAngle
-          }) - Math.PI / 2;
-          var position = core.positionFromAngle(middleAngle, centerRadius);
-          return React__default.createElement("g", {
-            key: node.data.id,
-            transform: "translate(".concat(position.x, ", ").concat(position.y, ")"),
-            style: sliceStyle
-          }, React__default.createElement("text", {
-            textAnchor: "middle",
-            style: _objectSpread2(_objectSpread2({}, theme.labels.text), {}, {
-              fill: textColor(node.data, theme)
-            })
-          }, label(node.data)));
-        }));
-      }
-    }]);
-    return SunburstLabels;
-  }(React.Component);
-  SunburstLabels.defaultProps = {
-    skipAngle: 0
-  };
-
   var SunburstArc = function SunburstArc(_ref) {
     var node = _ref.node,
         path = _ref.path,
@@ -224,29 +63,15 @@
         borderColor = _ref.borderColor,
         showTooltip = _ref.showTooltip,
         hideTooltip = _ref.hideTooltip,
-        tooltip = _ref.tooltip,
-        onClick = _ref.onClick,
-        onMouseEnter = _ref.onMouseEnter,
-        onMouseLeave = _ref.onMouseLeave;
-    var handleTooltip = function handleTooltip(e) {
-      return showTooltip(tooltip, e);
-    };
-    var handleMouseEnter = function handleMouseEnter(e) {
-      onMouseEnter(node.data, e);
-      showTooltip(tooltip, e);
-    };
-    var handleMouseLeave = function handleMouseLeave(e) {
-      onMouseLeave(node.data, e);
-      hideTooltip(e);
-    };
-    return React__default.createElement("path", {
+        onClick = _ref.onClick;
+    return React.createElement("path", {
       d: path,
       fill: node.data.color,
       stroke: borderColor,
       strokeWidth: borderWidth,
-      onMouseEnter: handleMouseEnter,
-      onMouseMove: handleTooltip,
-      onMouseLeave: handleMouseLeave,
+      onMouseEnter: showTooltip,
+      onMouseMove: showTooltip,
+      onMouseLeave: hideTooltip,
       onClick: onClick
     });
   };
@@ -256,23 +81,15 @@
     return {
       path: arcGenerator(node)
     };
-  }), withPropsOnChange(['node', 'onClick'], function (_ref3) {
+  }), withPropsOnChange(['node', 'showTooltip', 'tooltip', 'tooltipFormat', 'theme'], function (_ref3) {
     var node = _ref3.node,
-        _onClick = _ref3.onClick;
-    return {
-      onClick: function onClick(event) {
-        return _onClick(node.data, event);
-      }
-    };
-  }), withPropsOnChange(['node', 'showTooltip', 'tooltip', 'tooltipFormat', 'theme'], function (_ref4) {
-    var node = _ref4.node,
-        _showTooltip = _ref4.showTooltip,
-        tooltip$1 = _ref4.tooltip,
-        tooltipFormat = _ref4.tooltipFormat,
-        theme = _ref4.theme;
+        _showTooltip = _ref3.showTooltip,
+        tooltip$1 = _ref3.tooltip,
+        tooltipFormat = _ref3.tooltipFormat,
+        theme = _ref3.theme;
     return {
       showTooltip: function showTooltip(e) {
-        _showTooltip( React__default.createElement(tooltip.BasicTooltip, {
+        _showTooltip( React.createElement(tooltip.BasicTooltip, {
           id: node.data.id,
           enableChip: true,
           color: node.data.color,
@@ -303,37 +120,33 @@
         arcGenerator = _ref.arcGenerator,
         borderWidth = _ref.borderWidth,
         borderColor = _ref.borderColor,
-        enableSlicesLabels = _ref.enableSlicesLabels,
-        getSliceLabel = _ref.getSliceLabel,
-        slicesLabelsSkipAngle = _ref.slicesLabelsSkipAngle,
-        slicesLabelsTextColor = _ref.slicesLabelsTextColor,
+        tooltipFormat = _ref.tooltipFormat,
+        tooltip = _ref.tooltip,
         theme = _ref.theme,
         role = _ref.role,
         isInteractive = _ref.isInteractive,
-        tooltipFormat = _ref.tooltipFormat,
-        tooltip = _ref.tooltip,
         onClick = _ref.onClick,
         onMouseEnter = _ref.onMouseEnter,
         onMouseLeave = _ref.onMouseLeave;
-    return React__default.createElement(core.Container, {
+    return React.createElement(core.Container, {
       isInteractive: isInteractive,
       theme: theme,
       animate: false
     }, function (_ref2) {
       var showTooltip = _ref2.showTooltip,
           hideTooltip = _ref2.hideTooltip;
-      return React__default.createElement(core.SvgWrapper, {
+      return React.createElement(core.SvgWrapper, {
         width: outerWidth,
         height: outerHeight,
         margin: margin,
         theme: theme,
         role: role
-      }, React__default.createElement("g", {
+      }, React.createElement("g", {
         transform: "translate(".concat(centerX, ", ").concat(centerY, ")")
       }, nodes.filter(function (node) {
         return node.depth > 0;
       }).map(function (node, i) {
-        return React__default.createElement(SunburstArc$1, {
+        return React.createElement(SunburstArc$1, {
           key: i,
           node: node,
           arcGenerator: arcGenerator,
@@ -343,17 +156,11 @@
           hideTooltip: hideTooltip,
           tooltipFormat: tooltipFormat,
           tooltip: tooltip,
+          theme: theme,
           onClick: onClick,
           onMouseEnter: onMouseEnter,
-          onMouseLeave: onMouseLeave,
-          theme: theme
+          onMouseLeave: onMouseLeave
         });
-      }), enableSlicesLabels && React__default.createElement(SunburstLabels, {
-        nodes: nodes,
-        theme: theme,
-        label: getSliceLabel,
-        skipAngle: slicesLabelsSkipAngle,
-        textColor: colors.getInheritedColorGenerator(slicesLabelsTextColor, 'labels.text.fill')
       })));
     });
   };
@@ -370,9 +177,6 @@
       from: 'color'
     },
     role: 'img',
-    enableSlicesLabels: false,
-    sliceLabel: 'value',
-    slicesLabelsTextColor: 'theme',
     isInteractive: true,
     onClick: core.noop,
     onMouseEnter: core.noop,
@@ -458,20 +262,15 @@
     return {
       nodes: nodes
     };
-  }), withPropsOnChange(['sliceLabel'], function (_ref11) {
-    var sliceLabel = _ref11.sliceLabel;
-    return {
-      getSliceLabel: core.getLabelGenerator(sliceLabel)
-    };
   }), pure);
   var enhancedSunburst = enhance$1(Sunburst);
   enhancedSunburst.displayName = 'Sunburst';
 
   var ResponsiveSunburst = function ResponsiveSunburst(props) {
-    return React__default.createElement(core.ResponsiveWrapper, null, function (_ref) {
+    return React.createElement(core.ResponsiveWrapper, null, function (_ref) {
       var width = _ref.width,
           height = _ref.height;
-      return React__default.createElement(enhancedSunburst, Object.assign({
+      return React.createElement(enhancedSunburst, Object.assign({
         width: width,
         height: height
       }, props));

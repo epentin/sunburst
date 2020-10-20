@@ -1,4 +1,4 @@
-import React, { Fragment, Component } from 'react';
+import React from 'react';
 import sortBy from 'lodash/sortBy';
 import cloneDeep from 'lodash/cloneDeep';
 import compose from 'recompose/compose';
@@ -8,7 +8,7 @@ import withProps from 'recompose/withProps';
 import pure from 'recompose/pure';
 import { partition, hierarchy } from 'd3-hierarchy';
 import { arc } from 'd3-shape';
-import { radiansToDegrees, midAngle, positionFromAngle, noop, withTheme, withDimensions, getAccessorFor, getLabelGenerator, Container, SvgWrapper, ResponsiveWrapper } from '@nivo/core';
+import { noop, withTheme, withDimensions, getAccessorFor, Container, SvgWrapper, ResponsiveWrapper } from '@nivo/core';
 import { getOrdinalColorScale, getInheritedColorGenerator } from '@nivo/colors';
 import { BasicTooltip } from '@nivo/tooltip';
 
@@ -55,167 +55,6 @@ function _objectSpread2(target) {
   return target;
 }
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-  return _setPrototypeOf(o, p);
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _isNativeReflectConstruct() {
-  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
-  if (Reflect.construct.sham) return false;
-  if (typeof Proxy === "function") return true;
-  try {
-    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-function _typeof(obj) {
-  "@babel/helpers - typeof";
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-  return _typeof(obj);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-  return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (_typeof(call) === "object" || typeof call === "function")) {
-    return call;
-  }
-  return _assertThisInitialized(self);
-}
-
-function _createSuper(Derived) {
-  return function () {
-    var Super = _getPrototypeOf(Derived),
-        result;
-    if (_isNativeReflectConstruct()) {
-      var NewTarget = _getPrototypeOf(this).constructor;
-      result = Reflect.construct(Super, arguments, NewTarget);
-    } else {
-      result = Super.apply(this, arguments);
-    }
-    return _possibleConstructorReturn(this, result);
-  };
-}
-
-var sliceStyle = {
-  pointerEvents: 'none'
-};
-var SunburstLabels = function (_Component) {
-  _inherits(SunburstLabels, _Component);
-  var _super = _createSuper(SunburstLabels);
-  function SunburstLabels() {
-    _classCallCheck(this, SunburstLabels);
-    return _super.apply(this, arguments);
-  }
-  _createClass(SunburstLabels, [{
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-          nodes = _this$props.nodes,
-          label = _this$props.label,
-          skipAngle = _this$props.skipAngle,
-          textColor = _this$props.textColor,
-          theme = _this$props.theme;
-      var centerRadius = false;
-      return React.createElement(Fragment, null, nodes.filter(function (node) {
-        return node.depth === 1;
-      }).map(function (node) {
-        if (!centerRadius) {
-          var innerRadius = Math.sqrt(node.y0);
-          var outerRadius = Math.sqrt(node.y1);
-          centerRadius = innerRadius + (outerRadius - innerRadius) / 2;
-        }
-        var startAngle = node.x0;
-        var endAngle = node.x1;
-        var angle = Math.abs(endAngle - startAngle);
-        var angleDeg = radiansToDegrees(angle);
-        if (angleDeg <= skipAngle) return null;
-        var middleAngle = midAngle({
-          startAngle: startAngle,
-          endAngle: endAngle
-        }) - Math.PI / 2;
-        var position = positionFromAngle(middleAngle, centerRadius);
-        return React.createElement("g", {
-          key: node.data.id,
-          transform: "translate(".concat(position.x, ", ").concat(position.y, ")"),
-          style: sliceStyle
-        }, React.createElement("text", {
-          textAnchor: "middle",
-          style: _objectSpread2(_objectSpread2({}, theme.labels.text), {}, {
-            fill: textColor(node.data, theme)
-          })
-        }, label(node.data)));
-      }));
-    }
-  }]);
-  return SunburstLabels;
-}(Component);
-SunburstLabels.defaultProps = {
-  skipAngle: 0
-};
-
 var SunburstArc = function SunburstArc(_ref) {
   var node = _ref.node,
       path = _ref.path,
@@ -223,29 +62,15 @@ var SunburstArc = function SunburstArc(_ref) {
       borderColor = _ref.borderColor,
       showTooltip = _ref.showTooltip,
       hideTooltip = _ref.hideTooltip,
-      tooltip = _ref.tooltip,
-      onClick = _ref.onClick,
-      onMouseEnter = _ref.onMouseEnter,
-      onMouseLeave = _ref.onMouseLeave;
-  var handleTooltip = function handleTooltip(e) {
-    return showTooltip(tooltip, e);
-  };
-  var handleMouseEnter = function handleMouseEnter(e) {
-    onMouseEnter(node.data, e);
-    showTooltip(tooltip, e);
-  };
-  var handleMouseLeave = function handleMouseLeave(e) {
-    onMouseLeave(node.data, e);
-    hideTooltip(e);
-  };
+      onClick = _ref.onClick;
   return React.createElement("path", {
     d: path,
     fill: node.data.color,
     stroke: borderColor,
     strokeWidth: borderWidth,
-    onMouseEnter: handleMouseEnter,
-    onMouseMove: handleTooltip,
-    onMouseLeave: handleMouseLeave,
+    onMouseEnter: showTooltip,
+    onMouseMove: showTooltip,
+    onMouseLeave: hideTooltip,
     onClick: onClick
   });
 };
@@ -255,20 +80,12 @@ var enhance = compose(withPropsOnChange(['node', 'arcGenerator'], function (_ref
   return {
     path: arcGenerator(node)
   };
-}), withPropsOnChange(['node', 'onClick'], function (_ref3) {
+}), withPropsOnChange(['node', 'showTooltip', 'tooltip', 'tooltipFormat', 'theme'], function (_ref3) {
   var node = _ref3.node,
-      _onClick = _ref3.onClick;
-  return {
-    onClick: function onClick(event) {
-      return _onClick(node.data, event);
-    }
-  };
-}), withPropsOnChange(['node', 'showTooltip', 'tooltip', 'tooltipFormat', 'theme'], function (_ref4) {
-  var node = _ref4.node,
-      _showTooltip = _ref4.showTooltip,
-      tooltip = _ref4.tooltip,
-      tooltipFormat = _ref4.tooltipFormat,
-      theme = _ref4.theme;
+      _showTooltip = _ref3.showTooltip,
+      tooltip = _ref3.tooltip,
+      tooltipFormat = _ref3.tooltipFormat,
+      theme = _ref3.theme;
   return {
     showTooltip: function showTooltip(e) {
       _showTooltip( React.createElement(BasicTooltip, {
@@ -302,15 +119,11 @@ var Sunburst = function Sunburst(_ref) {
       arcGenerator = _ref.arcGenerator,
       borderWidth = _ref.borderWidth,
       borderColor = _ref.borderColor,
-      enableSlicesLabels = _ref.enableSlicesLabels,
-      getSliceLabel = _ref.getSliceLabel,
-      slicesLabelsSkipAngle = _ref.slicesLabelsSkipAngle,
-      slicesLabelsTextColor = _ref.slicesLabelsTextColor,
+      tooltipFormat = _ref.tooltipFormat,
+      tooltip = _ref.tooltip,
       theme = _ref.theme,
       role = _ref.role,
       isInteractive = _ref.isInteractive,
-      tooltipFormat = _ref.tooltipFormat,
-      tooltip = _ref.tooltip,
       onClick = _ref.onClick,
       onMouseEnter = _ref.onMouseEnter,
       onMouseLeave = _ref.onMouseLeave;
@@ -342,17 +155,11 @@ var Sunburst = function Sunburst(_ref) {
         hideTooltip: hideTooltip,
         tooltipFormat: tooltipFormat,
         tooltip: tooltip,
+        theme: theme,
         onClick: onClick,
         onMouseEnter: onMouseEnter,
-        onMouseLeave: onMouseLeave,
-        theme: theme
+        onMouseLeave: onMouseLeave
       });
-    }), enableSlicesLabels && React.createElement(SunburstLabels, {
-      nodes: nodes,
-      theme: theme,
-      label: getSliceLabel,
-      skipAngle: slicesLabelsSkipAngle,
-      textColor: getInheritedColorGenerator(slicesLabelsTextColor, 'labels.text.fill')
     })));
   });
 };
@@ -369,9 +176,6 @@ var SunburstDefaultProps = {
     from: 'color'
   },
   role: 'img',
-  enableSlicesLabels: false,
-  sliceLabel: 'value',
-  slicesLabelsTextColor: 'theme',
   isInteractive: true,
   onClick: noop,
   onMouseEnter: noop,
@@ -456,11 +260,6 @@ var enhance$1 = compose(defaultProps(SunburstDefaultProps), withTheme(), withDim
   });
   return {
     nodes: nodes
-  };
-}), withPropsOnChange(['sliceLabel'], function (_ref11) {
-  var sliceLabel = _ref11.sliceLabel;
-  return {
-    getSliceLabel: getLabelGenerator(sliceLabel)
   };
 }), pure);
 var enhancedSunburst = enhance$1(Sunburst);
