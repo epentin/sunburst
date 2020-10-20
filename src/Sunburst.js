@@ -28,7 +28,7 @@ import SunburstArc from './SunburstArc'
 
 const getAncestor = node => {
     if (node.depth === 1) return node
-    if (node.ancestor) return getAncestor(node.ancestor)
+    if (node.parent) return getAncestor(node.ancestor)
     return node
 }
 
@@ -208,7 +208,7 @@ const enhance = compose(
                 if (node.depth === 1 || childColor === 'noinherit') {
                     node.data.color = getColor(node.data)
                 } else if (node.depth > 1) {
-                    node.data.color = getChildColor(node.ancestor.data)
+                    node.data.color = getChildColor(node.parent.data)
                 }
             })
 
