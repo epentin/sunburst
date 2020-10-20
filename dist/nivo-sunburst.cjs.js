@@ -125,7 +125,7 @@ var SunburstArc$1 = enhance(SunburstArc);
 
 var getAncestor = function getAncestor(node) {
   if (node.depth === 1) return node;
-  if (node.parent) return getAncestor(node.parent);
+  if (node.ancestor) return getAncestor(node.ancestor);
   return node;
 };
 var Sunburst = function Sunburst(_ref) {
@@ -274,7 +274,7 @@ var enhance$1 = compose(defaultProps(SunburstDefaultProps), core.withTheme(), co
     if (node.depth === 1 || childColor === 'noinherit') {
       node.data.color = getColor(node.data);
     } else if (node.depth > 1) {
-      node.data.color = getChildColor(node.parent.data);
+      node.data.color = getChildColor(node.ancestor.data);
     }
   });
   return {
