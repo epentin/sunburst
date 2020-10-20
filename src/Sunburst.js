@@ -191,7 +191,6 @@ const enhance = compose(
             const total = data.value
 
             const nodes = sortBy(partition(cloneDeep(data)).descendants(), 'depth')
-            console.log(nodes)
             nodes.forEach(node => {
                 const ancestor = getAncestor(node).data
 

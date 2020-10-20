@@ -254,7 +254,6 @@ var enhance$1 = compose(defaultProps(SunburstDefaultProps), withTheme(), withDim
       getChildColor = _ref10.getChildColor;
   var total = data.value;
   var nodes = sortBy(partition(cloneDeep(data)).descendants(), 'depth');
-  console.log(nodes);
   nodes.forEach(function (node) {
     var ancestor = getAncestor(node).data;
     delete node.children;
