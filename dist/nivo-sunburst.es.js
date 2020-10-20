@@ -73,6 +73,9 @@ var SunburstArc = function SunburstArc(_ref) {
     onMouseLeave(node.data, e);
     hideTooltip(e);
   };
+  var handleClick = function handleClick(e) {
+    onClick(node.data, e);
+  };
   return React.createElement("path", {
     d: path,
     fill: node.data.color,
@@ -81,7 +84,7 @@ var SunburstArc = function SunburstArc(_ref) {
     onMouseEnter: handleMouseEnter,
     onMouseMove: showTooltip,
     onMouseLeave: handleMouseLeave,
-    onClick: onClick
+    onClick: handleClick
   });
 };
 var enhance = compose(withPropsOnChange(['node', 'arcGenerator'], function (_ref2) {

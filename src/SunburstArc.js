@@ -22,6 +22,10 @@ const SunburstArc = ({ node, path, borderWidth, borderColor, showTooltip, hideTo
         onMouseLeave(node.data, e)
         hideTooltip(e)
     }
+    
+    const handleClick = (e) => {
+        onClick(node.data, e)
+    }
     return (
         <path
             d={path}
@@ -31,7 +35,7 @@ const SunburstArc = ({ node, path, borderWidth, borderColor, showTooltip, hideTo
             onMouseEnter={handleMouseEnter}
             onMouseMove={showTooltip}
             onMouseLeave={handleMouseLeave}
-            onClick={onClick}
+            onClick={handleClick}
         />
     )
 }
