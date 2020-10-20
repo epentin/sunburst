@@ -13,18 +13,28 @@ import withPropsOnChange from 'recompose/withPropsOnChange'
 import pure from 'recompose/pure'
 import { BasicTooltip } from '@nivo/tooltip'
 
-const SunburstArc = ({ node, path, borderWidth, borderColor, showTooltip, hideTooltip, onClick }) => (
-    <path
-        d={path}
-        fill={node.data.color}
-        stroke={borderColor}
-        strokeWidth={borderWidth}
-        onMouseEnter={showTooltip}
-        onMouseMove={showTooltip}
-        onMouseLeave={hideTooltip}
-        onClick={onClick}
-    />
-)
+const SunburstArc = ({ node, path, borderWidth, borderColor, showTooltip, hideTooltip, onClick, onMouseEnter, onMouseLeave }) => {
+    const handleMouseEnter = e => {
+        onMouseEnter(node.data, e)
+        showTooltip(e)
+    }
+    const handleMouseLeave = e => {
+        onMouseLeave(node.data, e)
+        hideTooltip(e)
+    }
+    return (
+        <path
+            d={path}
+            fill={node.data.color}
+            stroke={borderColor}
+            strokeWidth={borderWidth}
+            onMouseEnter={handleMouseEnter}
+            onMouseMove={showTooltip}
+            onMouseLeave={handleMouseLeave}
+            onClick={onClick}
+        />
+    )
+}
 
 SunburstArc.propTypes = {
     node: PropTypes.shape({
@@ -42,6 +52,8 @@ SunburstArc.propTypes = {
     tooltip: PropTypes.func,
     theme: PropTypes.object.isRequired,
     onClick: PropTypes.func,
+    onMouseEnter: PropTypes.func, 
+    onMouseLeave: PropTypes.func
 }
 
 const enhance = compose(

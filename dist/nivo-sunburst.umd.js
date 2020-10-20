@@ -63,15 +63,25 @@
         borderColor = _ref.borderColor,
         showTooltip = _ref.showTooltip,
         hideTooltip = _ref.hideTooltip,
-        onClick = _ref.onClick;
+        onClick = _ref.onClick,
+        onMouseEnter = _ref.onMouseEnter,
+        onMouseLeave = _ref.onMouseLeave;
+    var handleMouseEnter = function handleMouseEnter(e) {
+      onMouseEnter(node.data, e);
+      showTooltip(e);
+    };
+    var handleMouseLeave = function handleMouseLeave(e) {
+      onMouseLeave(node.data, e);
+      hideTooltip(e);
+    };
     return React.createElement("path", {
       d: path,
       fill: node.data.color,
       stroke: borderColor,
       strokeWidth: borderWidth,
-      onMouseEnter: showTooltip,
+      onMouseEnter: handleMouseEnter,
       onMouseMove: showTooltip,
-      onMouseLeave: hideTooltip,
+      onMouseLeave: handleMouseLeave,
       onClick: onClick
     });
   };
