@@ -119,7 +119,7 @@ var SunburstArc$1 = enhance(SunburstArc);
 
 var getAncestor = function getAncestor(node) {
   if (node.depth === 1) return node;
-  if (node.parent) return getAncestor(node.ancestor);
+  if (node.parent) return getAncestor(node.parent);
   return node;
 };
 var Sunburst = function Sunburst(_ref) {
@@ -254,6 +254,7 @@ var enhance$1 = compose(defaultProps(SunburstDefaultProps), withTheme(), withDim
       getChildColor = _ref10.getChildColor;
   var total = data.value;
   var nodes = sortBy(partition(cloneDeep(data)).descendants(), 'depth');
+  console.log(nodes);
   nodes.forEach(function (node) {
     var ancestor = getAncestor(node).data;
     delete node.children;

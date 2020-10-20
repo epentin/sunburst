@@ -28,7 +28,7 @@ import SunburstArc from './SunburstArc'
 
 const getAncestor = node => {
     if (node.depth === 1) return node
-    if (node.parent) return getAncestor(node.ancestor)
+    if (node.parent) return getAncestor(node.parent)
     return node
 }
 
@@ -191,6 +191,7 @@ const enhance = compose(
             const total = data.value
 
             const nodes = sortBy(partition(cloneDeep(data)).descendants(), 'depth')
+            console.log(nodes)
             nodes.forEach(node => {
                 const ancestor = getAncestor(node).data
 
